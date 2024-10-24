@@ -1,4 +1,4 @@
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import "@/styles/globals.css";
 
 import { Open_Sans } from "next/font/google";
@@ -31,9 +31,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={cn(openSans.className, "dark")}>
         <body>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>
