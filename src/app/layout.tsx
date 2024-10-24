@@ -1,3 +1,4 @@
+import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
 import "@/styles/globals.css";
 
 import { Open_Sans } from "next/font/google";
@@ -27,10 +28,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={cn(openSans.className, "dark")}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={cn(openSans.className, "dark")}>
+        <body>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
