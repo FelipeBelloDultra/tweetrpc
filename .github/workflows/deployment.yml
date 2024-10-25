@@ -5,13 +5,6 @@ on:
         branches:
             - main
 
-env:
-    DATABASE_URL: ${{ secrets.DATABASE_URL }}
-    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-    VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -32,13 +25,20 @@ jobs:
               run: npm run lint
 
             - name: Apply Prisma Migrations
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
               run: npm run db:migrate
 
             - name: Install Vercel CLI
               run: npm install -g vercel
 
             - name: Build the project
+              env:
+                  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
               run: npm run build
 
             - name: Deploy to Vercel
-              run: npx vercel --prod
+              env:
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+              run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
