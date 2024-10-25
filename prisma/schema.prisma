@@ -18,3 +18,7 @@ model Post {
 
   @@index([name])
 }
+
+model Test {
+  id Int @id @default(autoincrement())
+}

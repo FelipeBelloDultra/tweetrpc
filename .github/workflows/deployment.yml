@@ -1,0 +1,43 @@
+name: Vercel development Deployment
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies and generate @prisma/client
+              run: npm install
+
+            - name: Run ESLint
+              run: npm run link
+
+            - name: Apply Prisma Migrations
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+              run: npm run db:migrate
+
+            - name: Install Vercel CLI
+              run: npm install -g vercel
+
+            - name: Build the project
+              run: npm run build
+
+            - name: Deploy to Vercel
+              env:
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+              run: npx vercel --prod
