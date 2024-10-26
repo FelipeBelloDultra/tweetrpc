@@ -1,3 +1,4 @@
+import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@/styles/globals.css";
 
@@ -28,9 +29,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en" className={cn(openSans.className, "dark")}>
-        <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <body>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>
