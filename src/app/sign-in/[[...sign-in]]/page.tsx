@@ -2,9 +2,13 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return (
-    <>
-      <h1>test</h1>
-      <SignIn signUpUrl="/sign-up" />
-    </>
+    <SignIn
+      signUpUrl="/sign-up"
+      appearance={{
+        elements: {
+          rootBox: "mx-auto pt-20",
+        },
+      }}
+    />
   );
 }

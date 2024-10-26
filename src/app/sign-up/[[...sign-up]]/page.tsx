@@ -1,5 +1,14 @@
 import { SignUp } from "@clerk/nextjs";
 
 export default function SignUpPage() {
-  return <SignUp signInUrl="/sign-in" />;
+  return (
+    <SignUp
+      signInUrl="/sign-in"
+      appearance={{
+        elements: {
+          rootBox: "mx-auto pt-20",
+        },
+      }}
+    />
+  );
 }
