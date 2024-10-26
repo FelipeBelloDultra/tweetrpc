@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={cn(openSans.className, "dark")}>
-        <body>
+        <body className="min-h-screen bg-background font-sans text-foreground antialiased">
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>
