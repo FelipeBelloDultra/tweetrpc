@@ -14,9 +14,22 @@ model Post {
   id        String   @id @default(uuid())
   content   String   @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  authorId  String   @map("external_clerk_id")
+  authorId  String   @map("account_id")
+
+  author Account @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([authorId])
   @@map("posts")
+}
+
+model Account {
+  id        String @id @map("external_clerk_id")
+  email     String @unique @map("external_clerk_email")
+  firstName String @map("external_clerk_first_name")
+  lastName  String @map("external_clerk_last_name")
+  imageUrl  String @map("external_clerk_image_url")
+
+  posts Post[]
+
+  @@map("accounts")
 }
