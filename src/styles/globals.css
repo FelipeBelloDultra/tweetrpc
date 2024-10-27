@@ -6,7 +6,12 @@
   * {
     @apply border-border;
   }
+
+  html {
+    @apply bg-slate-200 font-sans text-foreground antialiased;
+  }
+
   body {
-    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    @apply min-h-screen;
   }
 }
