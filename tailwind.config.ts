@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         sans: ["var(--font-open-sans)", ...fontFamily.sans],
       },
+      boxShadow: {
+        clerk:
+          "rgba(0, 0, 0, 0.08) 0px 5px 15px 0px, rgba(25, 28, 33, 0.2) 0px 15px 35px -5px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

@@ -1,11 +1,11 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import CreatePost from "../_components/create-post";
 
 export default function HomePage() {
   return (
     <div>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <h1>Welcome to TweetRPC!</h1>
+
+      <CreatePost />
     </div>
   );
 }
