@@ -2,10 +2,8 @@ import CreatePost from "../_components/create-post";
 
 export default function HomePage() {
   return (
-    <div>
-      <h1>Welcome to TweetRPC!</h1>
-
+    <main className="mx-auto w-full max-w-xl px-6 pt-20">
       <CreatePost />
-    </div>
+    </main>
   );
 }
