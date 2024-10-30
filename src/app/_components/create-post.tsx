@@ -9,26 +9,26 @@ import { api } from "@/trpc/react";
 const MAX_TEXTAREA_LENGTH = 255;
 
 export default function CreatePost() {
-  const [post, setPost] = useState("");
+  const [postContent, setPostContent] = useState("");
   const utils = api.useUtils();
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
-      setPost("");
+      setPostContent("");
     },
   });
 
-  function onChangePost(post: string) {
-    if (post.length > MAX_TEXTAREA_LENGTH) return;
+  function onChangePost(content: string) {
+    if (content.length > MAX_TEXTAREA_LENGTH) return;
 
-    setPost(post);
+    setPostContent(content);
   }
 
   function handleSubmitPost() {
-    if (post.trim().length === 0) return;
+    if (postContent.trim().length === 0) return;
 
     createPost.mutate({
-      content: post,
+      content: postContent,
     });
   }
 
@@ -51,7 +51,7 @@ export default function CreatePost() {
         </div>
 
         <div className="absolute bottom-0 left-0 py-2 pl-4 pr-2 text-sm font-bold">
-          {post.length}/{MAX_TEXTAREA_LENGTH}
+          {postContent.length}/{MAX_TEXTAREA_LENGTH}
         </div>
 
         <Textarea
@@ -60,7 +60,7 @@ export default function CreatePost() {
           maxLength={MAX_TEXTAREA_LENGTH}
           autoFocus
           placeholder="What would you like to share?"
-          value={post}
+          value={postContent}
           onChange={(e) => onChangePost(e.target.value)}
         />
       </div>
