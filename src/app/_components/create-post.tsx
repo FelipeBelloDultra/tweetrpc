@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkLoaded, ClerkLoading, UserButton, useAuth } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Button, Skeleton, Textarea } from "./ui";
 import { useState } from "react";
@@ -11,7 +11,6 @@ const MAX_TEXTAREA_LENGTH = 255;
 export default function CreatePost() {
   const [post, setPost] = useState("");
   const utils = api.useUtils();
-  const { userId, signOut } = useAuth();
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
@@ -25,15 +24,10 @@ export default function CreatePost() {
     setPost(post);
   }
 
-  async function handleSubmitPost() {
-    if (!userId) {
-      await signOut();
-
-      return;
-    }
+  function handleSubmitPost() {
+    if (post.trim().length === 0) return;
 
     createPost.mutate({
-      authorId: userId,
       content: post,
     });
   }
