@@ -1,10 +1,12 @@
+"use client";
+
 import { useSignIn as useClerkSignIn } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -19,6 +21,7 @@ type SignInSchema = z.infer<typeof signInSchema>;
 
 export function useSignIn({ redirectUrl }: UseSignInProps) {
   const router = useRouter();
+  const { toast } = useToast();
   const { isLoaded, signIn, setActive } = useClerkSignIn();
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -52,11 +55,11 @@ export function useSignIn({ redirectUrl }: UseSignInProps) {
         title: `Welcome ${userData?.firstName}!`,
         description: "You have successfully signed in",
       });
-      await router.push(redirectUrl || "/dashboard");
+      router.push(redirectUrl);
     },
     onError: async (error) => {
       if (error.message === "Session already exists") {
-        await router.push(redirectUrl || "/dashboard");
+        router.push(redirectUrl);
       }
       console.error("Error authenticating", error);
       toast({
@@ -67,14 +70,14 @@ export function useSignIn({ redirectUrl }: UseSignInProps) {
     },
   });
 
-  async function onSubmit(values: SignInSchema) {
+  async function onSubmitSignInForm(values: SignInSchema) {
     await mutateAsync(values);
     form.reset();
   }
 
   return {
     form,
-    onSubmit,
+    onSubmitSignInForm,
     isPending,
     isSuccess,
   };
