@@ -1,7 +1,21 @@
 import { ClerkLoaded, ClerkLoading, SignIn } from "@clerk/nextjs";
 import { SignLoaders } from "@/app/_components/sign-loaders";
+import { SignInForm } from "./_components/sign-in-form";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-export default function SignInPage() {
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: {
+    redirect_url: string;
+  };
+}) {
+  const { redirect_url: redirectUrl } = searchParams;
+  const { userId } = await auth();
+
+  if (userId) return redirect("/");
+
   return (
     <div className="flex items-start pt-20">
       <ClerkLoading>
@@ -16,6 +30,7 @@ export default function SignInPage() {
         />
       </ClerkLoading>
 
+      <SignInForm redirectUrl={redirectUrl} />
       <ClerkLoaded>
         <SignIn
           signUpUrl="/sign-up"
