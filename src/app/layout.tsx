@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 import { Open_Sans } from "next/font/google";
 import { type Metadata } from "next";
 
-import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { AppProvider } from "@/providers/app-provider";
 
