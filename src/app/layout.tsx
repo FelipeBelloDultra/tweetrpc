@@ -4,8 +4,8 @@ import "@/styles/globals.css";
 import { Open_Sans } from "next/font/google";
 import { type Metadata } from "next";
 
-import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
+import { AppProvider } from "@/providers/app-provider";
 
 export const metadata: Metadata = {
   title: "TweetRPC",
@@ -31,7 +31,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={cn(openSans.className)}>
         <body>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <AppProvider>{children}</AppProvider>
         </body>
       </html>
     </ClerkProvider>
