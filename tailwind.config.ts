@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-open-sans)", ...fontFamily.sans],
+        sans: ["var(--font-open-sans)", "sans-serif", ...fontFamily.sans],
       },
       boxShadow: {
         clerk:
