@@ -8,6 +8,27 @@ services:
             - POSTGRESQL_PASSWORD=docker
         volumes:
             - postgresql_data:/bitnami/postgresql
+        networks:
+            - tweetrpc-net
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+            target: Development
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/home/node/app
+        depends_on:
+            - postgres_db
+        networks:
+            - tweetrpc-net
+        command: sh -c "npm ci && npm run dev"
 
 volumes:
     postgresql_data:
+
+networks:
+    tweetrpc-net:
+        driver: bridge
