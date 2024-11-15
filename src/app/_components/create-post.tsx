@@ -3,37 +3,50 @@
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Button, Skeleton, Textarea } from "./ui";
-import { useState } from "react";
 import { api } from "@/trpc/react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "@/hooks/use-toast";
 
 const MAX_TEXTAREA_LENGTH = 255;
 
+const createPostFormSchema = z.object({
+  postContent: z.string().max(MAX_TEXTAREA_LENGTH).min(5),
+});
+
+type PostFormSchema = z.infer<typeof createPostFormSchema>;
+
 export default function CreatePost() {
-  const [postContent, setPostContent] = useState("");
+  const { register, watch, handleSubmit, reset } = useForm({
+    resolver: zodResolver(createPostFormSchema),
+    defaultValues: {
+      postContent: "",
+    },
+  });
   const utils = api.useUtils();
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
-      setPostContent("");
     },
   });
 
-  function onChangePost(content: string) {
-    if (content.length > MAX_TEXTAREA_LENGTH) return;
+  const postContent = watch("postContent");
+  const postContentLength = postContent.length;
 
-    setPostContent(content);
-  }
-
-  function handleSubmitPost() {
-    if (postContent.trim().length === 0) return;
-
+  function handleSubmitPostContent(data: PostFormSchema) {
     createPost.mutate({
-      content: postContent,
+      content: data.postContent,
+    });
+    reset();
+    toast({
+      title: "Post Created!",
+      description: "Your post has been successfully created",
     });
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmit(handleSubmitPostContent)}>
       <div className="relative">
         <div className="absolute left-4 top-2">
           <ClerkLoading>
@@ -51,7 +64,7 @@ export default function CreatePost() {
         </div>
 
         <div className="absolute bottom-0 left-0 py-2 pl-4 pr-2 text-sm font-bold">
-          {postContent.length}/{MAX_TEXTAREA_LENGTH}
+          {postContentLength}/{MAX_TEXTAREA_LENGTH}
         </div>
 
         <Textarea
@@ -60,14 +73,13 @@ export default function CreatePost() {
           maxLength={MAX_TEXTAREA_LENGTH}
           autoFocus
           placeholder="What would you like to share?"
-          value={postContent}
-          onChange={(e) => onChangePost(e.target.value)}
+          {...register("postContent")}
         />
       </div>
 
       <Button
         className="ml-auto mt-4 flex w-full max-w-24 items-center gap-2 font-bold"
-        onClick={handleSubmitPost}
+        type="submit"
         disabled={createPost.isPending}
       >
         {createPost.isPending ? (
@@ -78,6 +90,6 @@ export default function CreatePost() {
           </>
         )}
       </Button>
-    </>
+    </form>
   );
 }
