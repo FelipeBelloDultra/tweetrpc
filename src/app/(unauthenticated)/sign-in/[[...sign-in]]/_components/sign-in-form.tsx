@@ -1,12 +1,12 @@
 "use client";
 
 import { LoaderCircleIcon, LogInIcon } from "lucide-react";
-import { useSignIn } from "../_hooks/use-sign-in";
 import { Button } from "@/app/_components/ui";
 import { Form, FormField, FormItem } from "@/app/_components/ui/form";
 import { Label } from "@/app/_components/ui/label";
 import { Input } from "@/app/_components/ui/input";
 import { useSearchParams } from "next/navigation";
+import { useSignIn } from "@/hooks/use-sign-in";
 
 export function SignInForm() {
   const searchParams = useSearchParams();

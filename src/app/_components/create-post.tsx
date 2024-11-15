@@ -3,7 +3,7 @@
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { Button, Skeleton, Textarea } from "./ui";
-import { useCreatePost } from "./_hooks/use-create-post";
+import { useCreatePost } from "@/hooks/use-create-post";
 
 export default function CreatePost() {
   const {
