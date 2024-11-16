@@ -16,7 +16,7 @@ export function Post({
   return (
     <li className="flex items-start gap-2 rounded-md bg-white p-4">
       <Image
-        className="h-12 w-12 rounded-full"
+        className="h-12 w-12 flex-shrink-0 rounded-full"
         height={48}
         width={48}
         src={authorImage}
@@ -24,7 +24,7 @@ export function Post({
       />
 
       <div className="flex-1">
-        <div className="mb-1 flex items-center justify-between">
+        <div className="mb-1 flex flex-wrap items-center justify-between">
           <p className="text-sm font-bold leading-5 text-gray-600">
             {authorName}
           </p>
