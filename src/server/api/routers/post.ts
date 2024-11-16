@@ -17,14 +17,39 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  fetchAll: protectedProcedure.query(async ({ ctx }) => {
-    const posts = await ctx.db.post.findMany({
-      take: 100,
-      orderBy: [{ createdAt: "desc" }],
-    });
+  fetchAll: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, skip, cursor } = input;
+      const items = await ctx.db.post.findMany({
+        take: limit + 1,
+        cursor: cursor
+          ? {
+              id: cursor,
+            }
+          : undefined,
+        skip,
+        orderBy: [{ createdAt: "desc" }],
+      });
 
-    return await addUserDataToPost(posts);
-  }),
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop(); // return the last item from the array
+        nextCursor = nextItem?.id;
+      }
+
+      const posts = await addUserDataToPost(items);
+      return {
+        data: posts,
+        nextCursor,
+      };
+    }),
 });
 
 async function addUserDataToPost(posts: Array<Post>) {
