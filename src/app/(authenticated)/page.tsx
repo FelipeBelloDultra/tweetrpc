@@ -1,14 +1,12 @@
 import CreatePost from "../_components/create-post";
-import { EmptyList } from "../_components/empty-list";
+import { PostList } from "../_components/post-list";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <main className="mx-auto w-full max-w-xl px-6 pt-20">
       <CreatePost />
 
-      <section>
-        <EmptyList />
-      </section>
+      <PostList />
     </main>
   );
 }
