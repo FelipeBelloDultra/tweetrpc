@@ -12,6 +12,7 @@ export default function CreatePost() {
     handleSubmitForm,
     maxTextareaLength,
     isPending,
+    formState,
   } = useCreatePost();
 
   return (
@@ -49,7 +50,7 @@ export default function CreatePost() {
       <Button
         className="ml-auto mt-4 flex w-full max-w-24 items-center gap-2 font-bold"
         type="submit"
-        disabled={isPending}
+        disabled={isPending || !formState.isValid}
       >
         {isPending ? (
           <LoaderCircleIcon className="animate-spin" />

@@ -13,7 +13,7 @@ type PostFormSchema = z.infer<typeof createPostFormSchema>;
 
 export function useCreatePost() {
   const maxTextareaLength = MAX_TEXTAREA_LENGTH;
-  const { register, watch, handleSubmit, reset } = useForm({
+  const { register, watch, handleSubmit, reset, formState } = useForm({
     resolver: zodResolver(createPostFormSchema),
     defaultValues: {
       postContent: "",
@@ -46,6 +46,7 @@ export function useCreatePost() {
 
   return {
     handleSubmitForm,
+    formState,
     register,
     postContentLength,
     maxTextareaLength,
