@@ -5,8 +5,6 @@ import { Post } from "./post";
 export async function PostList() {
   const data = await api.post.fetchAll();
 
-  console.log(data);
-
   return (
     <div className="pb-10">
       {!!data.length ? (
