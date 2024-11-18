@@ -4,6 +4,8 @@ tweetRPC is a Twitter-inspired app built with the [t3 stack](https://create.t3.g
 
 ## 🎨 Preview
 
+Live demo: https://tweetrpc.vercel.app/
+
 <p align="center">
   <img src="./.docs/preview-1.png" alt="preview of image 1" width="500">
   <img src="./.docs/preview-2.png" alt="preview of image 2" width="500">
